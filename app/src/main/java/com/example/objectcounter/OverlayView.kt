@@ -18,7 +18,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 
     private var scaleFactor: Float = 1f
 
-    var b: Map<String, Int> = mapOf()
+    var objectsWithcount: Map<String, Int> = mapOf()
     private var bounds = Rect()
 
     init {
@@ -80,7 +80,7 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
             // Draw text for detected object
             canvas.drawText(drawableText, left, top + bounds.height(), textPaint)
         }
-        canvas.drawText(b.toString(), 30f, 60f, textPaint)
+        canvas.drawText(objectsWithcount.toString(), 30f, 60f, textPaint)
     }
 
     fun setResults(
@@ -89,9 +89,9 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         imageWidth: Int,
     ) {
         results = detectionResults
-        val a = mutableListOf<String>()
-        results.forEach { a.add(it.categories[0].label) }
-        b = a.groupingBy { it }.eachCount()
+        val objectList = mutableListOf<String>()
+        results.forEach { objectList.add(it.categories[0].label) }
+        objectsWithcount = objectList.groupingBy { it }.eachCount()
         scaleFactor = max(width * 1f / imageWidth, height * 1f / imageHeight)
     }
 
